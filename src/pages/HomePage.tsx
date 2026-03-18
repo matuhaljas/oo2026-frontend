@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react"
+import type { Product } from "../models/Product";
+
+
+
 
 //renderdamine --> esmakordne componendi peale tulek
 //re-renderdamine --> componendi HTML muutmine
 
 function HomePage() {
-    const [products, setProducts] = useState([{name: "Coca-Cola", price: "10"}]);
+    const [products, setProducts] = useState<Product[]>([]);
 
-    //uef --> 
+    //uef --> enter
     useEffect(() => {
         fetch("http://localhost:8090/products") // URL kuhu läheb päring
             .then(res => res.json())
