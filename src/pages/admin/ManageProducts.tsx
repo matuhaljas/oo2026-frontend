@@ -6,10 +6,17 @@ function ManageProducts() {
 
     //uef --> enter
     useEffect(() => {
-        fetch("http://localhost:8090/products") // URL kuhu läheb päring
+        fetch(import.meta.env.VITE_BACK_URL + "/products") // URL kuhu läheb päring
             .then(res => res.json())
             .then(json => setProducts(json))
     }, []);
+
+    const deleteProduct = (productId: number) => {
+      fetch(import.meta.env.VITE_BACK_URL + "/products/" + productId, {
+        method: "DELETE"
+      }).then(res => res.json())
+      .then(json => setProducts(json));
+    }
 
 
   return (
@@ -39,7 +46,7 @@ function ManageProducts() {
               <td>{product.stock}</td>
               <td>{product.category?.name}</td>
               <td><button>Edit</button></td>
-              <td><button>X</button></td>
+              <td><button onClick={() => deleteProduct(Number(product.id))}>X</button></td>
             </tr>)}
         </tbody>
       </table>

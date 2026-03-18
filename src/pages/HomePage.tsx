@@ -12,7 +12,7 @@ function HomePage() {
 
     //uef --> enter
     useEffect(() => {
-        fetch("http://localhost:8090/products") // URL kuhu läheb päring
+        fetch(import.meta.env.VITE_BACK_URL + "/products") // URL kuhu läheb päring
             .then(res => res.json())
             .then(json => setProducts(json))
     }, []);
@@ -20,7 +20,10 @@ function HomePage() {
 
   return (
     <div>
-        {products.map(product => <div> {product.name} - {product.price}€ </div> )}
+        {products.map(product =>
+            <div key={product.id}> 
+                {product.name} - {product.price}€ 
+            </div> )}
         </div>
   )
 }

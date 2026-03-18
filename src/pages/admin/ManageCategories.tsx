@@ -1,7 +1,56 @@
+import { useEffect, useState } from "react"
+import type { Category } from "../../models/Category"
 
 function ManageCategories() {
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [newCategory, setNewCategory] = useState<Category>({name: ""});
+
+    useEffect(() => {
+            fetch(import.meta.env.VITE_BACK_URL + "/categories") // URL kuhu läheb päring
+                .then(res => res.json())
+                .then(json => setCategories(json))
+        }, []);
+
+    const deleteCategory = (categoryId: number) => {
+        fetch(import.meta.env.VITE_BACK_URL + "/categories/" + categoryId, {
+            method: "DELETE"
+        }).then(res => res.json())
+        .then(json => setCategories(json));
+    }
+
+    const addCategory = () => {
+        fetch(import.meta.env.VITE_BACK_URL + "/categories", {
+            method: "POST",
+            body: JSON.stringify(newCategory),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(res => res.json())
+        .then(json => setCategories(json));
+    }
+
   return (
-    <div>ManageCategories</div>
+    <div>
+        <label>Name</label> <br />
+        <input onChange={(e) => setNewCategory({name: e.target.value})} type="text"/> <br />
+        <button onClick={addCategory}>Add Category</button>
+        <table>
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {categories.map(category => 
+            <tr key = {category.id}>
+              <td>{category.id}</td>
+              <td>{category.name}</td>
+              <td><button onClick={() => deleteCategory(Number(category.id))}>X</button></td>
+            </tr>)}
+        </tbody>
+      </table></div>
   )
 }
 
