@@ -5,9 +5,9 @@ function ManageProducts() {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-  fetch(import.meta.env.VITE_BACK_URL + "/products/admin")
-    .then(res => res.json())
-    .then(json => setProducts(json));
+    fetch(import.meta.env.VITE_BACK_URL + "/products/admin")
+      .then(res => res.json())
+      .then(json => setProducts(json)) 
   }, []);
 
   const deleteProduct = (productId: number) => {

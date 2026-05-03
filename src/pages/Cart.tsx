@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'
 import type { OrderRow } from '../models/OrderRow';
 
 function Cart() {
@@ -54,7 +54,15 @@ function Cart() {
         // jwt.io: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30
       }
     }).then(res => res.json())
-      .then(json => alert("Lisasid edukalt tellimuse ID-ga: " + json.id)) // toastify: https://www.npmjs.com/package/react-toastify
+      .then(json => {
+        if (json.message && json.timestamp && json.status) {
+					alert("Juhtus viga: " + json.message);
+					return;
+				}
+        // kui suunan Reacti sees oma localhostis, siis kasutan useNavigate, navigate()
+        // kui suunan välisele URL-le, pean kasutama JavaScripti suunamist
+        window.location.href = json.url;
+      }) // toastify: https://www.npmjs.com/package/react-toastify
       // react-hot-toast: https://react-hot-toast.com/
   }
 
@@ -98,10 +106,11 @@ export default Cart
 // Backendi uue tellimuse saatmine++
 // Signup --> isiku lisamine++
 
-// Profile --> aadressi lisamine
-// Login, aga tokenit ei hakka väljastama
+// Profile --> aadressi lisamine++
+// Login, aga tokenit ei hakka väljastama++
+
+// API päringud: pakiautomaadid++
 
 // ProductDetails
-// EditProduct
 
-// API päringud: pakiautomaadid
+// EditProduct
