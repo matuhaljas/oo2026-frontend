@@ -7,6 +7,8 @@ import type { OrderRow } from "../models/OrderRow";
 // re-renderdamine --> componendi HTMLs muutujate olekute muutmine
 
 function HomePage() {
+  console.log("backend URL:", import.meta.env.VITE_BACK_URL);
+
   const [products, setProducts] = useState<Product[]>([]);
   const [totalElements, setTotalElements] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -19,10 +21,14 @@ function HomePage() {
   // products = json
 
   useEffect(() => {
-    fetch(import.meta.env.VITE_BACK_URL + "/categories")
-      .then(res => res.json())
-      .then(json => setCategories(json)) 
-  }, []);
+  fetch(import.meta.env.VITE_BACK_URL + "/categories")
+    .then(res => res.json())
+    .then(json => {
+      console.log("categories response:", json);
+      setCategories(json);
+    })
+    .catch(err => console.error("categories fetch error:", err));
+}, []);
 
   // uef --> enter
   // onLoad funktsioon + dependency array sees olevate muutujate muutmisel läheb käima
@@ -102,6 +108,7 @@ function HomePage() {
       </button>
       {categories.map(category => 
         <button 
+          key={category.id}
           style={activeCategoryId === category.id ? {fontWeight: "bold"}: undefined} 
           onClick={() => activeCategoryHandler(Number(category.id))}>
           {category.name}
