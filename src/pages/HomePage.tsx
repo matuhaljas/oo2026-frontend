@@ -17,6 +17,8 @@ function HomePage() {
   const [activeCategoryId, setActiveCategoryId] = useState(0);
   // let products = [];
   // products = json
+  console.log(products)
+  console.log(categories)
 
   useEffect(() => {
     fetch(import.meta.env.VITE_BACK_URL + "/categories")
