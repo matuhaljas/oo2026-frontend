@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react"
 import type { Product } from "../models/Product";
 import type { Category } from "../models/Category";
-import type { OrderRow } from "../models/OrderRow";
+import type{ OrderRow } from "../models/OrderRow";
 
 // renderdamine --> esmakordne componendi peale tulek
 // re-renderdamine --> componendi HTMLs muutujate olekute muutmine
 
 function HomePage() {
-  console.log("backend URL:", import.meta.env.VITE_BACK_URL);
-
   const [products, setProducts] = useState<Product[]>([]);
   const [totalElements, setTotalElements] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -17,18 +15,14 @@ function HomePage() {
   const [sort, setSort] = useState("id,asc");
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategoryId, setActiveCategoryId] = useState(0);
-  
   // let products = [];
   // products = json
+
   useEffect(() => {
-  fetch(import.meta.env.VITE_BACK_URL + "/categories")
-    .then(res => res.json())
-    .then(json => {
-      console.log("categories response:", json);
-      setCategories(json);
-    })
-    .catch(err => console.error("categories fetch error:", err));
-}, []);
+    fetch(import.meta.env.VITE_BACK_URL + "/categories")
+      .then(res => res.json())
+      .then(json => setCategories(json)) 
+  }, []);
 
   // uef --> enter
   // onLoad funktsioon + dependency array sees olevate muutujate muutmisel läheb käima
@@ -108,7 +102,6 @@ function HomePage() {
       </button>
       {categories.map(category => 
         <button 
-          key={category.id}
           style={activeCategoryId === category.id ? {fontWeight: "bold"}: undefined} 
           onClick={() => activeCategoryHandler(Number(category.id))}>
           {category.name}
