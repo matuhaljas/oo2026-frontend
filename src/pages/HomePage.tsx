@@ -17,9 +17,9 @@ function HomePage() {
   const [sort, setSort] = useState("id,asc");
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategoryId, setActiveCategoryId] = useState(0);
+  
   // let products = [];
   // products = json
-
   useEffect(() => {
   fetch(import.meta.env.VITE_BACK_URL + "/categories")
     .then(res => res.json())
